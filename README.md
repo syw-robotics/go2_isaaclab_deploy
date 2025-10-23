@@ -21,7 +21,7 @@ mkdir build && cd build
 cmake .. -DBUILD_EXAMPLES=OFF # Install on the /usr/local directory
 sudo make install
 # Compile the robot_controller
-cd unitree_rl_lab/deploy/robots/go2 # or other robots
+cd go2_isaaclab_deploy/go2 # or other robots
 mkdir build && cd build
 cmake .. && make
 ```
@@ -43,7 +43,7 @@ cd unitree_mujoco/simulate/build
 ```
 
 ```bash
-cd unitree_rl_lab/deploy/robots/go2/build
+cd go2_isaaclab_deploy/go2/build
 ./go2_ctrl --network lo
 # 1. press [L2 + Down] to set the robot to stand up
 # 2. Click the mujoco window, and then press 8 to make the robot feet touch the ground.
@@ -61,4 +61,4 @@ You can use this program to control the robot directly, but make sure the on-bor
 
 ## Acknowledgements
 
-This repository is extracted from [unitree_rl_lab](https://github.com/unitreerobotics/unitree_rl_lab.git)
+This repository is adapted from [unitree_rl_lab](https://github.com/unitreerobotics/unitree_rl_lab.git)
