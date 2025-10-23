@@ -5,6 +5,7 @@
 
 #include <eigen3/Eigen/Dense>
 #include <yaml-cpp/yaml.h>
+#include <algorithm>
 #include "isaaclab/envs/manager_based_rl_env.h"
 #include "isaaclab/manager/action_manager.h"
 

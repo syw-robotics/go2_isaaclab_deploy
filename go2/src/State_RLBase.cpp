@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <chrono>
 #include <cmath>
+#include <algorithm>
 
 State_RLBase::State_RLBase(int state_mode, std::string state_string, std::string policy_dir, std::string policy_name)
 : FSMState(state_mode, state_string) 

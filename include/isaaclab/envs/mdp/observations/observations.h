@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include "isaaclab/envs/manager_based_rl_env.h"
 
 namespace isaaclab
