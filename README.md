@@ -7,9 +7,11 @@
 
 ## Overview
 
-Sim2Sim & Sim2Real for Unitree Go2, designed for velovity tracking policy trained in IsaacLab.
+Sim2Sim & Sim2Real for Unitree Go2, designed for velovity tracking policy trained in IsaacLab. This deployment is compatible with both x86 and arm64 platforms.
 
 ## Setup
+
+- Install `unitree_sdk2`
 
 ```bash
 # Install dependencies
@@ -20,14 +22,32 @@ cd unitree_sdk2
 mkdir build && cd build
 cmake .. -DBUILD_EXAMPLES=OFF # Install on the /usr/local directory
 sudo make install
-# Compile the robot_controller
+```
+
+- Compile the robot_controller
+
+```bash
 cd go2_isaaclab_deploy/go2 # or other robots
 mkdir build && cd build
 cmake .. && make
 ```
+Or simply run `./make.sh` to compile, `./make.sh -c` to clear the build directory.
+
+## Deploy
+
+- Create a folder under `go2_isaaclab_deploy/config/<policy>/` to store the policy, and put onnx model and policy.yaml file in this folder (required, refer to `go2/config/unitree_rl_lab/`)
+
+- Set the default value of `policy_dir` and `policy_name` in `go2/config/config.yaml` to the policy folder name and onnx model name (optional, can be overridden by command line parameters)
+
+Example:
+```yaml
+FSM:
+  Velocity:
+    policy_dir: unitree_rl_lab
+    policy_name: policy.onnx
+```
 
 ### Sim2Sim
-
 Installing the [unitree_mujoco](https://github.com/unitreerobotics/unitree_mujoco?tab=readme-ov-file#installation).
 
 - Set the `robot` at `/simulate/config.yaml` to go2
@@ -43,21 +63,42 @@ cd unitree_mujoco/simulate/build
 ```
 
 ```bash
+# start the controller
 cd go2_isaaclab_deploy/go2/build
 ./go2_ctrl --network lo
-# 1. press [L2 + Down] to set the robot to stand up
-# 2. Click the mujoco window, and then press 8 to make the robot feet touch the ground.
-# 3. Press [start] to run the policy.
-# 4. Click the mujoco window, and then press 9 to disable the elastic band.
+
+# to override the default policy selection in config.yaml
+./go2_ctrl --network lo --policy_dir unitree_rl_lab --policy_name policy.onnx
+
+# as a shortcut
+./sim.sh
+
 ```
+Joystick Operation:
+
+- Press [L2 + A] to set the robot to stand up
+- Press [start] to run the policy.
+- Press [L1] to enter passive mode for protection.
+
+<!-- - Click the mujoco window, and then press 8 to make the robot feet touch the ground.
+- Click the mujoco window, and then press 9 to disable the elastic band. -->
+
 
 ### Sim2Real
 
-You can use this program to control the robot directly, but make sure the on-borad control program has been closed.
+You may deploy the controller on both x86 and arm64(onboard orin nx) platforms.
 
 ```bash
+# start the controller
 ./go2_ctrl --network eth0 # eth0 is the network interface name.
+
+# to override the default policy selection in config.yaml
+./go2_ctrl --network eth0 --policy_dir unitree_rl_lab --policy_name policy.onnx
+
+# as a shortcut
+./real.sh
 ```
+
 
 ## Acknowledgements
 
